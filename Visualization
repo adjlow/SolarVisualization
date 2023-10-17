@@ -1,0 +1,20 @@
+#Read Data
+df = pd.read_csv('Solar2022.csv')
+df.head()
+
+#capacity = df['Nameplate Capacity (MW)'] > 10
+state = df['State'].isin(['NC', 'CA', 'TX', 'FL', 'AZ', 'NV', 'NJ', 'VA', 'GA', 'NY'])
+
+fdf = df[state]
+fdf.head()
+
+#Altair chart
+chart = alt.Chart(fdf).mark_bar().encode(
+    x=alt.X('Operating Year:O', title='Year'),
+    y=alt.Y('sum(Nameplate Capacity (MW)):Q', title='Nameplate Capacity (MW)'),
+    color='State:N',
+    tooltip=['State:O', 'sum(Nameplate Capacity (MW)):Q']
+).properties(
+    width=600,
+    title='Solar Capacity Additions by State over the Years'
+)
